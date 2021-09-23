@@ -1,9 +1,8 @@
-import "./App.css";
 import { createApi } from "unsplash-js";
 import { Fragment, useEffect, useState } from "react";
-
-require("dotenv").config({ path: __dirname + "/.env" });
-
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 // on your node server
 const api = createApi({
   accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY as string,
@@ -26,14 +25,7 @@ const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
 
   return (
     <Fragment>
-      <img className="img" src={urls.regular} />
-      <a
-        className="credit"
-        target="_blank"
-        href={`https://unsplash.com/@${user.username}`}
-      >
-        {user.name}
-      </a>
+      <img className="img" src={urls.small} style={{ maxHeight: "200px" }} />
     </Fragment>
   );
 };
@@ -54,6 +46,39 @@ function App() {
       });
   }, []);
 
+  const settings = {
+    dots: false,
+    infinite: true,
+    speed: 1000,
+    slidesToShow: 5,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 2500,
+
+    variableWidth: true,
+    pauseOnFocus: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 3,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
   if (data === null) {
     return <div>Loading...</div>;
   } else if (data.errors) {
@@ -66,13 +91,11 @@ function App() {
   } else {
     return (
       <div className="feed">
-        <ul className="columnUl">
+        <Slider {...settings}>
           {data.response.results.map((photo: Photo) => (
-            <li key={photo.id} className="li">
-              <PhotoComp photo={photo} />
-            </li>
+            <PhotoComp photo={photo} />
           ))}
-        </ul>
+        </Slider>
       </div>
     );
   }
