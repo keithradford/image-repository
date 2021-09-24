@@ -1,7 +1,6 @@
 import { Button, ButtonGroup } from "@chakra-ui/button";
 import { Center, Heading, HStack, VStack } from "@chakra-ui/layout";
-import { Box } from "@chakra-ui/react";
-import { BrowseContainer } from "../components/BrowseContainer";
+import { BrowseContainer } from "./BrowseContainer";
 
 export function MainContainer() {
   return (
@@ -17,7 +16,7 @@ export function MainContainer() {
           </HStack>
         </VStack>
       </Center>
-      <BrowseContainer />
+      <BrowseContainer query="cat" />
     </>
   );
 }

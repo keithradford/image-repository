@@ -1,20 +1,9 @@
 import { Photo } from "../types";
 import Slider from "react-slick";
 import { InteractivePhoto } from "./Photo";
-import { Fragment } from "react";
 
 type Props = {
   photos: Photo[];
-};
-
-const PhotoComp: React.FC<{ photo: Photo }> = ({ photo }) => {
-  const { user, urls } = photo;
-
-  return (
-    <Fragment>
-      <img className="img" src={urls.small} style={{ maxHeight: "200px" }} />
-    </Fragment>
-  );
 };
 
 export function GallerySlider({ photos }: Props) {

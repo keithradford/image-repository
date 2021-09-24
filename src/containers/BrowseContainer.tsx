@@ -1,40 +1,27 @@
-import { Box } from "@chakra-ui/layout";
-import { useEffect, useState } from "react";
-import { createApi } from "unsplash-js";
+import { Box, Center } from "@chakra-ui/layout";
 import { GallerySlider } from "../components/GallerySlider";
 
-const api = createApi({
-  accessKey: process.env.REACT_APP_UNSPLASH_ACCESS_KEY as string,
-});
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { usePhotos } from "../hooks/usePhotos";
+import { Spinner } from "@chakra-ui/spinner";
 
-export function BrowseContainer() {
-  const [data, setPhotosResponse] = useState<any>(null);
+type Props = {
+  query: string;
+};
 
-  useEffect(() => {
-    api.search
-      .getPhotos({ query: "dogs", orientation: "landscape" })
-      .then((result) => {
-        setPhotosResponse(result);
-      })
-      .catch(() => {
-        console.log("something went wrong!");
-      });
-  }, []);
+export function BrowseContainer({ query }: Props) {
+  const photos = usePhotos(query);
 
-  if (data === null) {
-    return <div>Loading...</div>;
-  } else if (data.errors) {
-    return (
-      <div>
-        <div>{data.errors[0]}</div>
-        <div>PS: Make sure to set your access token!</div>
-      </div>
-    );
-  } else {
-    return (
-      <Box overflowX="hidden">
-        <GallerySlider photos={data.response.results} />
-      </Box>
-    );
-  }
+  return (
+    <Box overflowX="hidden" my="2em">
+      {photos.status === "loaded" ? (
+        <GallerySlider photos={photos.data} />
+      ) : (
+        <Center w="100%" h="100%">
+          <Spinner size="xl" />
+        </Center>
+      )}
+    </Box>
+  );
 }
