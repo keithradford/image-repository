@@ -1,15 +1,27 @@
 import { Button, ButtonGroup, IconButton } from "@chakra-ui/button";
-import { Center, Heading, HStack, VStack } from "@chakra-ui/layout";
+import {
+  Box,
+  Center,
+  Grid,
+  GridItem,
+  Heading,
+  HStack,
+  VStack,
+} from "@chakra-ui/layout";
 import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useCallback, useState } from "react";
 import { BrowseContainer } from "./BrowseContainer";
 import { AiFillPicture, AiOutlineSearch } from "react-icons/ai";
 import { BsGear } from "react-icons/bs";
 import { GiLockedChest } from "react-icons/gi";
+import { VaultContainer } from "./VaultContainer";
 
 export function MainContainer() {
   const tags = ["cat", "dog", "bird", "hockey", "bread"];
 
+  const [activePage, setActivePage] = useState<"explore" | "search" | "vault">(
+    "explore"
+  );
   const [input, setInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -22,12 +34,28 @@ export function MainContainer() {
 
   return (
     <>
-      <Center mt="2em" overflowX="hidden">
-        <VStack spacing="2em">
-          <HStack>
+      <Grid templateColumns="repeat(3, 1fr)" w="100%" my="2em">
+        <GridItem colStart={2} justifyContent="center">
+          <Center>
             <Heading size="4xl">myPics</Heading>
-            <IconButton aria-label="settings" icon={<BsGear />} />
-          </HStack>
+          </Center>
+        </GridItem>
+        <GridItem colStart={3}>
+          <Box justifyContent="right" w="100%" display="flex">
+            <IconButton
+              aria-label="settings"
+              isRound
+              colorScheme="cyan"
+              variant="ghost"
+              size="lg"
+              icon={<BsGear />}
+              mr="3em"
+            />
+          </Box>
+        </GridItem>
+      </Grid>
+      <Center overflowX="hidden">
+        <VStack spacing="2em">
           <HStack>
             <ButtonGroup
               colorScheme="cyan"
@@ -35,41 +63,61 @@ export function MainContainer() {
               isAttached
               size="lg"
             >
-              <Button isActive rightIcon={<AiFillPicture />}>
+              <Button
+                isActive={activePage === "explore"}
+                onClick={() => setActivePage("explore")}
+                rightIcon={<AiFillPicture />}
+              >
                 EXPLORE
               </Button>
-              <Button rightIcon={<AiOutlineSearch />}>SEARCH</Button>
-              <Button variant="ghost" rightIcon={<GiLockedChest />}>
+              <Button
+                isActive={activePage === "search"}
+                onClick={() => setActivePage("search")}
+                rightIcon={<AiOutlineSearch />}
+              >
+                SEARCH
+              </Button>
+              <Button
+                isActive={activePage === "vault"}
+                onClick={() => setActivePage("vault")}
+                rightIcon={<GiLockedChest />}
+              >
                 VAULT
               </Button>
             </ButtonGroup>
           </HStack>
-          <InputGroup>
-            <Input
-              w="100%"
-              size="lg"
-              variant="flushed"
-              placeholder="Try searching 'cat'"
-              onChange={handleChange}
-            />
-            <InputRightElement>
-              <Button
-                disabled={input.length < 2}
-                size="sm"
-                aria-label="search"
-                colorScheme="green"
-                onClick={onClick}
-              >
-                GO!
-              </Button>
-            </InputRightElement>
-          </InputGroup>
+          {activePage === "search" && (
+            <>
+              <InputGroup>
+                <Input
+                  w="100%"
+                  size="lg"
+                  variant="flushed"
+                  placeholder="Try searching 'shopify'"
+                  onChange={handleChange}
+                />
+                <InputRightElement>
+                  <Button
+                    disabled={input.length < 2}
+                    size="sm"
+                    aria-label="search"
+                    colorScheme="green"
+                    onClick={onClick}
+                  >
+                    GO!
+                  </Button>
+                </InputRightElement>
+              </InputGroup>
+            </>
+          )}
         </VStack>
       </Center>
-      {searchQuery && <BrowseContainer query={searchQuery} />}
-      {tags.map((tag) => (
-        <BrowseContainer query={tag} />
-      ))}
+      {activePage === "search" && searchQuery && (
+        <BrowseContainer query={searchQuery} />
+      )}
+      {activePage === "explore" &&
+        tags.map((tag) => <BrowseContainer query={tag} />)}
+      {activePage === "vault" && <VaultContainer />}
     </>
   );
 }

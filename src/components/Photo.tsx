@@ -8,29 +8,27 @@ import {
   ModalContent,
   ModalOverlay,
 } from "@chakra-ui/modal";
+import { useSavedPhotos } from "../hooks/useSavedPhotos";
+import { Photo } from "../types";
 
 type Props = {
-  urls: {
-    large: string;
-    regular: string;
-    raw: string;
-    small: string;
-  };
+  photo: Photo;
 };
 
-export function InteractivePhoto({ urls }: Props) {
+export function InteractivePhoto({ photo }: Props) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { addPhoto, deletePhoto, contains } = useSavedPhotos();
 
   return (
     <>
       <Image
         onClick={onOpen}
-        src={urls.small}
+        src={photo.urls.small}
         alt="yo"
         style={{ height: "200px" }}
         _hover={{
           border: "2px solid rgb(0, 161, 210) !important",
-          filter: "drop-shadow(0 -2mm 10mm rgb(0, 161, 210)) !important",
+          filter: "drop-shadow(0 -2mm 2mm rgb(0, 161, 210)) !important",
           cursor: "pointer",
         }}
       />
@@ -40,13 +38,22 @@ export function InteractivePhoto({ urls }: Props) {
           <ModalCloseButton />
           <HStack>
             <VStack pb=".9em">
-              <Image src={urls.regular} />
+              <Image src={photo.urls.regular} />
               <Spacer />
               <HStack>
                 <Button colorScheme="blue" mr={3} onClick={onClose}>
                   Share
                 </Button>
-                <Button colorScheme="green">Add to Vault</Button>
+                <Button
+                  colorScheme={contains(photo.id) ? "red" : "green"}
+                  onClick={
+                    contains(photo.id)
+                      ? () => deletePhoto(photo)
+                      : () => addPhoto(photo)
+                  }
+                >
+                  {contains(photo.id) ? "Remove from Vault" : "Add to Vault"}
+                </Button>
               </HStack>
             </VStack>
           </HStack>

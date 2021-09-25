@@ -41,7 +41,7 @@ export function GallerySlider({ photos }: Props) {
   return (
     <Slider {...settings}>
       {photos.map((photo: Photo) => (
-        <InteractivePhoto urls={photo.urls} />
+        <InteractivePhoto photo={photo} />
       ))}
     </Slider>
   );
