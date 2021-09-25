@@ -8,10 +8,9 @@ type Props = {
 
 export function GallerySlider({ photos }: Props) {
   const settings = {
-    dots: false,
+    swipe: false,
     infinite: true,
     speed: 1000,
-    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
@@ -42,8 +41,7 @@ export function GallerySlider({ photos }: Props) {
   return (
     <Slider {...settings}>
       {photos.map((photo: Photo) => (
-        <InteractivePhoto src={photo.urls.small} />
-        // <PhotoComp photo={photo} />
+        <InteractivePhoto urls={photo.urls} />
       ))}
     </Slider>
   );

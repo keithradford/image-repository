@@ -1,4 +1,4 @@
-import { Box, Center } from "@chakra-ui/layout";
+import { Box, Center, Heading } from "@chakra-ui/layout";
 import { GallerySlider } from "../components/GallerySlider";
 
 import "slick-carousel/slick/slick.css";
@@ -14,7 +14,8 @@ export function BrowseContainer({ query }: Props) {
   const photos = usePhotos(query);
 
   return (
-    <Box overflowX="hidden" my="2em">
+    <Box overflowX="hidden" my="4em" h="20em">
+      <Heading ml=".2em">{query.toUpperCase()}</Heading>
       {photos.status === "loaded" ? (
         <GallerySlider photos={photos.data} />
       ) : (

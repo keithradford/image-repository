@@ -13,6 +13,7 @@ export const getPhotos = async (
     const data = await api.search.getPhotos({
       query,
       orientation: "landscape",
+      perPage: 50,
     });
 
     return data;
