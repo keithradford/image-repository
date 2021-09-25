@@ -1,5 +1,4 @@
-import { Image } from "@chakra-ui/image";
-import { Box, Center, Container, Wrap, WrapItem } from "@chakra-ui/layout";
+import { Center, Wrap, WrapItem } from "@chakra-ui/layout";
 import { InteractivePhoto } from "../components/Photo";
 import { useSavedPhotos } from "../hooks/useSavedPhotos";
 

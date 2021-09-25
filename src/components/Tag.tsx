@@ -1,12 +1,17 @@
 import { CloseButton } from "@chakra-ui/close-button";
 import { Box, HStack, Text } from "@chakra-ui/layout";
-import { PropsWithChildren } from "react";
+import { useCallback } from "react";
 
 type Props = {
-  onRemove?: () => void;
+  handleDelete: (tag: string) => void;
+  tag: string;
 };
 
-export function Tag({ onRemove, children }: PropsWithChildren<Props>) {
+export function Tag({ handleDelete, tag }: Props) {
+  const onDelete = useCallback(() => {
+    handleDelete(tag);
+  }, [handleDelete, tag]);
+
   return (
     <Box
       bgColor="gray.700"
@@ -16,8 +21,8 @@ export function Tag({ onRemove, children }: PropsWithChildren<Props>) {
       borderRadius="2em"
     >
       <HStack>
-        <Text>{children}</Text>
-        <CloseButton size="sm" />
+        <Text>{tag}</Text>
+        <CloseButton size="sm" onClick={onDelete} />
       </HStack>
     </Box>
   );

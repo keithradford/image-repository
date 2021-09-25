@@ -15,13 +15,17 @@ import { AiFillPicture, AiOutlineSearch } from "react-icons/ai";
 import { BsGear } from "react-icons/bs";
 import { GiLockedChest } from "react-icons/gi";
 import { VaultContainer } from "./VaultContainer";
+import { useFirstVisit } from "../hooks/useFirstVists";
+import { WelcomeContainer } from "./WelcomeContainer";
+import { useSavedTags } from "../hooks/useSavedTags";
 
 export function MainContainer() {
-  const tags = ["cat", "dog", "bird", "hockey", "bread"];
+  const { tags } = useSavedTags();
 
   const [activePage, setActivePage] = useState<"explore" | "search" | "vault">(
     "explore"
   );
+  const { firstVisit } = useFirstVisit();
   const [input, setInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
@@ -31,6 +35,8 @@ export function MainContainer() {
       setInput(event.target.value),
     []
   );
+
+  if (firstVisit) return <WelcomeContainer />;
 
   return (
     <>
