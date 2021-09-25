@@ -8,8 +8,7 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/layout";
-import { Input, InputGroup, InputRightElement } from "@chakra-ui/react";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { BrowseContainer } from "./BrowseContainer";
 import { AiFillPicture, AiOutlineSearch } from "react-icons/ai";
 import { BsGear } from "react-icons/bs";
@@ -18,6 +17,7 @@ import { VaultContainer } from "./VaultContainer";
 import { useFirstVisit } from "../hooks/useFirstVists";
 import { WelcomeContainer } from "./WelcomeContainer";
 import { useSavedTags } from "../hooks/useSavedTags";
+import { SearchContainer } from "./SearchContainer";
 
 export function MainContainer() {
   const { tags } = useSavedTags();
@@ -26,15 +26,6 @@ export function MainContainer() {
     "explore"
   );
   const { firstVisit } = useFirstVisit();
-  const [input, setInput] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const onClick = () => setSearchQuery(input);
-  const handleChange = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>) =>
-      setInput(event.target.value),
-    []
-  );
 
   if (firstVisit) return <WelcomeContainer />;
 
@@ -92,37 +83,13 @@ export function MainContainer() {
               </Button>
             </ButtonGroup>
           </HStack>
-          {activePage === "search" && (
-            <>
-              <InputGroup>
-                <Input
-                  w="100%"
-                  size="lg"
-                  variant="flushed"
-                  placeholder="Try searching 'shopify'"
-                  onChange={handleChange}
-                />
-                <InputRightElement>
-                  <Button
-                    disabled={input.length < 2}
-                    size="sm"
-                    aria-label="search"
-                    colorScheme="green"
-                    onClick={onClick}
-                  >
-                    GO!
-                  </Button>
-                </InputRightElement>
-              </InputGroup>
-            </>
-          )}
         </VStack>
       </Center>
-      {activePage === "search" && searchQuery && (
-        <BrowseContainer query={searchQuery} />
-      )}
+      {activePage === "search" && <SearchContainer />}
       {activePage === "explore" &&
-        tags.map((tag) => <BrowseContainer query={tag} />)}
+        tags.map((tag, i) => (
+          <BrowseContainer query={tag} direction={i % 2 === 0} />
+        ))}
       {activePage === "vault" && <VaultContainer />}
     </>
   );

@@ -4,13 +4,15 @@ import { InteractivePhoto } from "./Photo";
 
 type Props = {
   photos: Photo[];
+  direction: boolean;
 };
 
-export function GallerySlider({ photos }: Props) {
+export function GallerySlider({ photos, direction }: Props) {
   const settings = {
     swipe: false,
     infinite: true,
     speed: 1000,
+    rtl: direction,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2500,
