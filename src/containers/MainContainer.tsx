@@ -18,10 +18,12 @@ import { useFirstVisit } from "../hooks/useFirstVists";
 import { WelcomeContainer } from "./WelcomeContainer";
 import { useSavedTags } from "../hooks/useSavedTags";
 import { SearchContainer } from "./SearchContainer";
+import { useBreakpointValue } from "@chakra-ui/media-query";
 
 export function MainContainer() {
   const { tags } = useSavedTags();
 
+  const size = useBreakpointValue({ base: "sm", md: "lg" });
   const [activePage, setActivePage] = useState<"explore" | "search" | "vault">(
     "explore"
   );
@@ -58,7 +60,7 @@ export function MainContainer() {
               colorScheme="cyan"
               variant="ghost"
               isAttached
-              size="lg"
+              size={size}
             >
               <Button
                 isActive={activePage === "explore"}
