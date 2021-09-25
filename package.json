@@ -48,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@chakra-ui/icons": "^1.0.15",
     "@types/react-slick": "^0.23.5",
     "react-icons": "^4.2.0"
   }

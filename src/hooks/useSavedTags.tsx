@@ -30,7 +30,7 @@ export const useSavedTags = (): SavedTags => {
   const addTag = useCallback(
     (tag: string) => {
       // avoid adding a photo if it is saved already.
-      if (contains(tag)) return;
+      if (contains(tag) || tag.length === 10) return;
 
       setData([...data, tag]);
     },

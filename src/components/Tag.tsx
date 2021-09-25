@@ -1,4 +1,5 @@
 import { CloseButton } from "@chakra-ui/close-button";
+import { useColorMode } from "@chakra-ui/color-mode";
 import { Box, HStack, Text } from "@chakra-ui/layout";
 import { useCallback } from "react";
 
@@ -8,13 +9,14 @@ type Props = {
 };
 
 export function Tag({ handleDelete, tag }: Props) {
+  const { colorMode } = useColorMode();
   const onDelete = useCallback(() => {
     handleDelete(tag);
   }, [handleDelete, tag]);
 
   return (
     <Box
-      bgColor="gray.700"
+      bgColor={colorMode === "dark" ? "gray.700" : "gray.100"}
       py=".3em"
       px="1em"
       w="fit-content"

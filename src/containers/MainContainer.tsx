@@ -8,10 +8,11 @@ import {
   HStack,
   VStack,
 } from "@chakra-ui/layout";
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { BrowseContainer } from "./BrowseContainer";
-import { AiFillPicture, AiOutlineSearch } from "react-icons/ai";
-import { BsGear } from "react-icons/bs";
+import { AiFillGithub, AiFillPicture, AiOutlineSearch } from "react-icons/ai";
+import { BsGear, BsPencil } from "react-icons/bs";
 import { GiLockedChest } from "react-icons/gi";
 import { VaultContainer } from "./VaultContainer";
 import { useFirstVisit } from "../hooks/useFirstVists";
@@ -19,15 +20,24 @@ import { WelcomeContainer } from "./WelcomeContainer";
 import { useSavedTags } from "../hooks/useSavedTags";
 import { SearchContainer } from "./SearchContainer";
 import { useBreakpointValue } from "@chakra-ui/media-query";
+import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/menu";
+import { useColorMode } from "@chakra-ui/color-mode";
+import { mode } from "@chakra-ui/theme-tools";
 
 export function MainContainer() {
   const { tags } = useSavedTags();
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  const customMode = (
+    light: string | JSX.Element,
+    dark: string | JSX.Element
+  ) => mode(light, dark)({ colorMode });
 
   const size = useBreakpointValue({ base: "sm", md: "lg" });
   const [activePage, setActivePage] = useState<"explore" | "search" | "vault">(
     "explore"
   );
-  const { firstVisit } = useFirstVisit();
+  const { firstVisit, changeFirstVisit } = useFirstVisit();
 
   if (firstVisit) return <WelcomeContainer />;
 
@@ -41,15 +51,47 @@ export function MainContainer() {
         </GridItem>
         <GridItem colStart={3}>
           <Box justifyContent="right" w="100%" display="flex">
-            <IconButton
-              aria-label="settings"
-              isRound
-              colorScheme="cyan"
-              variant="ghost"
-              size="lg"
-              icon={<BsGear />}
-              mr="3em"
-            />
+            <Menu isLazy>
+              <MenuButton
+                aria-label="settings"
+                isRound
+                colorScheme="cyan"
+                variant="ghost"
+                size="lg"
+                as={IconButton}
+                icon={<BsGear />}
+                mr="3em"
+              />
+              <MenuList>
+                <MenuItem
+                  onClick={changeFirstVisit}
+                  icon={<BsPencil fontSize="20px" />}
+                >
+                  Edit Tags
+                </MenuItem>
+                <Center p=".2em" mt=".1em">
+                  <IconButton
+                    aria-label="github"
+                    colorScheme="cyan"
+                    icon={<AiFillGithub fontSize="35px" />}
+                    size="md"
+                    isRound
+                  />
+                  <IconButton
+                    ml="1em"
+                    aria-label="toggle"
+                    isRound
+                    icon={customMode(
+                      <MoonIcon fontSize="30px" />,
+                      <SunIcon fontSize="30px" />
+                    )}
+                    size="md"
+                    onClick={toggleColorMode}
+                    colorScheme={customMode("purple", "orange")}
+                  />
+                </Center>
+              </MenuList>
+            </Menu>
           </Box>
         </GridItem>
       </Grid>
