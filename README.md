@@ -1,46 +1,35 @@
-# Getting Started with Create React App
+# myPics
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+myPics is an online image repository built for the Shopify Backend Developer Intern Challenge (Winter 2022). The application lets users browse photos on topics they may be interested in as well as search, store, and even share photos on Twitter. It is a React web-app built using TypeScript currently being hosted on Heroku at https://immense-anchorage-96448.herokuapp.com/. 
 
-## Available Scripts
+## How it works
 
-In the project directory, you can run:
+As mentioned, myPics is a web-app built with React using TypeScript. The application stores data in the user's browser's local storage to ensure their stored images persist between sessions. In the future, I would like to port this to an API to allow for data persisting between devices. Currently the stored data is set up in a way that porting to an API and database should be smooth. The following is a brief list of what myPics offers:
 
-### `npm start`
+* Upon entering [the site](https://immense-anchorage-96448.herokuapp.com/) for the first time, users are prompted to enter their topics of interest. 
+  * Can select up to 10.
+  * After moving on to the main site the topics selected will be displayed with up to 50 related images. 
+* Users can select images to add them to their vault or share on Twitter by simply clicking an image.  
+* Users can choose to browse images, where they can search whatever they'd like. 
+* Users can then go to their vault where all saved images will appear.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Unsplash API
+[Unsplash API](https://unsplash.com/developers) is used throughout this project as the sole source of images displayed on the site. Unsplash provides a vast set of images, making it the perfect API to use for this image repository. Requests are made based on topics (tags) that users set when first visiting the site as well as when users search for images.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Chakra UI
 
-### `npm test`
+myPics uses the component library [Chakra UI](https://chakra-ui.com/) as it's main source of components, styling, and formatting. You will notice throughout the codebase there is no use of raw HTML elements such as `<div>`, `<li>`, etc. as Chakra provides us with clean alternatives that help keep the code consistent and the website looking good.
+  
+## Run the app
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To run the app locally, follow these steps:
 
-### `npm run build`
+  1. Clone the repository `git clone https://github.com/keithradford/image-repository.git`
+  2. Navigate to the newly cloned repo and install dependencies `npm ci`
+  3. Run the app `npm start` (defaults to [localhost:3000](http://localhost:3000/))
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Test the app
+myPics has extensive unit tests built with [react-testing-libray](https://testing-library.com/docs/react-testing-library/intro/) and [Jest](https://jestjs.io/). Tests can be run with:
+```bash
+npm run test
+```
