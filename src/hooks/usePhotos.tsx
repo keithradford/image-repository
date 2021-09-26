@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { getPhotos } from "../api/getPhotos";
-import { Photo } from "../types";
+import { Photo } from "../lib/types";
 
 export type UsePhoto =
   | {

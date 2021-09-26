@@ -3,7 +3,7 @@ import { Input, InputGroup, InputRightElement } from "@chakra-ui/input";
 import { Center, Wrap, WrapItem } from "@chakra-ui/layout";
 import { Container } from "@chakra-ui/react";
 import { Spinner } from "@chakra-ui/spinner";
-import { useCallback, useState } from "react";
+import { KeyboardEvent, useCallback, useState } from "react";
 import { InteractivePhoto } from "../components/Photo";
 import { usePhotos } from "../hooks/usePhotos";
 
@@ -13,7 +13,10 @@ export function SearchContainer() {
 
   const photos = usePhotos(searchQuery);
 
-  const onClick = () => setSearchQuery(input);
+  const handleKeyboardEvent = (e: KeyboardEvent) => {
+    e.key === "Enter" && setSearchQuery(input);
+  };
+  const onClick = (event: any) => setSearchQuery(input);
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) =>
       setInput(event.target.value),
@@ -30,6 +33,7 @@ export function SearchContainer() {
             variant="flushed"
             placeholder="Try searching 'shopify'"
             onChange={handleChange}
+            onKeyPress={handleKeyboardEvent}
           />
           <InputRightElement>
             <Button
@@ -46,11 +50,11 @@ export function SearchContainer() {
       </Container>
       <Center overflow="hidden" mx="2em" my="2em">
         {photos.status !== "loaded" ? (
-          <Spinner />
+          <Spinner data-testid="spinner" />
         ) : (
           <Wrap mt="3em">
             {photos.data.map((photo) => (
-              <WrapItem>
+              <WrapItem key={photo.id}>
                 <InteractivePhoto photo={photo} />
               </WrapItem>
             ))}

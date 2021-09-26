@@ -2,7 +2,7 @@ import { useCallback } from "react";
 
 import _ from "lodash";
 
-import { Photo } from "../types";
+import { Photo } from "../lib/types";
 import { useLocalStorage } from "./useLocalStorage";
 
 type SavedPhotos = {

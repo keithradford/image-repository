@@ -131,9 +131,7 @@ export function MainContainer() {
       </Center>
       {activePage === "search" && <SearchContainer />}
       {activePage === "explore" &&
-        tags.map((tag, i) => (
-          <BrowseContainer query={tag} direction={i % 2 === 0} />
-        ))}
+        tags.map((tag) => <BrowseContainer query={tag} />)}
       {activePage === "vault" && <VaultContainer />}
     </>
   );

@@ -10,7 +10,7 @@ export function VaultContainer() {
       {photos.length > 0 ? (
         <Wrap mt="3em">
           {photos.map((photo) => (
-            <WrapItem>
+            <WrapItem key={photo.id}>
               <InteractivePhoto photo={photo} />
             </WrapItem>
           ))}

@@ -9,7 +9,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/layout";
-import { useCallback, useState } from "react";
+import { useCallback, useState, KeyboardEvent } from "react";
 import { BsChevronRight } from "react-icons/bs";
 import { Tag } from "../components/Tag";
 import { useFirstVisit } from "../hooks/useFirstVists";
@@ -33,6 +33,13 @@ export function WelcomeContainer() {
     },
     [deleteTag]
   );
+
+  const handleKeyboardEvent = (e: KeyboardEvent) => {
+    if (e.key === "Enter") {
+      addTag(input);
+      setInput("");
+    }
+  };
 
   const handleChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) =>
@@ -62,6 +69,7 @@ export function WelcomeContainer() {
               variant="flushed"
               placeholder="Try entering 'cats'"
               onChange={handleChange}
+              onKeyPress={handleKeyboardEvent}
             />
             <InputRightElement>
               <Button
@@ -79,11 +87,12 @@ export function WelcomeContainer() {
             <Wrap
               my="1em"
               p="1em"
-              bgColor="rgba(228, 228, 228, 0.699)"
+              border=".1em solid"
+              borderColor="hsla(0, 0%, 89.41176470588236%, 0.514)"
               borderRadius=".3em"
             >
-              {tags.map((tag) => (
-                <WrapItem>
+              {tags.map((tag, i) => (
+                <WrapItem key={tag + `${i}`}>
                   <Tag tag={tag} handleDelete={handleDelete} />
                 </WrapItem>
               ))}

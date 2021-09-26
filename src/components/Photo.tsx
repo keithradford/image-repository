@@ -9,7 +9,7 @@ import {
   ModalOverlay,
 } from "@chakra-ui/modal";
 import { useSavedPhotos } from "../hooks/useSavedPhotos";
-import { Photo } from "../types";
+import { Photo } from "../lib/types";
 
 type Props = {
   photo: Photo;
@@ -24,7 +24,6 @@ export function InteractivePhoto({ photo }: Props) {
       <Image
         onClick={onOpen}
         src={photo.urls.small}
-        alt="yo"
         style={{ height: "200px" }}
         _hover={{
           border: "2px solid rgb(0, 161, 210) !important",
@@ -34,7 +33,7 @@ export function InteractivePhoto({ photo }: Props) {
       />
       <Modal isOpen={isOpen} onClose={onClose} size="2xl" isCentered>
         <ModalOverlay />
-        <ModalContent w="1000px">
+        <ModalContent w="1000px" data-testid="modal">
           <ModalCloseButton />
           <HStack>
             <VStack pb=".9em">
