@@ -71,6 +71,9 @@ export function MainContainer() {
                 </MenuItem>
                 <Center p=".2em" mt=".1em">
                   <IconButton
+                    as="a"
+                    target="_blank"
+                    href="https://github.com/keithradford/image-repository"
                     aria-label="github"
                     colorScheme="cyan"
                     icon={<AiFillGithub fontSize="35px" />}
